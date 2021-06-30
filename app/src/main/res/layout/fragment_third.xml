@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-=======
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
->>>>>>> 47ecdb230816fc7f6851a430aab49e9a39800eee
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ThirdFragment">
 
-<<<<<<< HEAD
 
     <ImageView
         android:id="@+id/imageView"
@@ -25,7 +20,7 @@
         android:src="@drawable/profile" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/nombrePersona"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -67,16 +62,3 @@
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 </RelativeLayout>
-=======
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:fontFamily="sans-serif-black"
-        android:textSize="40sp"
-        android:text="Tercer Fragmento" />
-
-</FrameLayout>
->>>>>>> 47ecdb230816fc7f6851a430aab49e9a39800eee
