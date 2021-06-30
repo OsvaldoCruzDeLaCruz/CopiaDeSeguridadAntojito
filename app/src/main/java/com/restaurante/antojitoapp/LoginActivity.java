@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     Users usersData = snapshot.child(parentDbName).child(phone).getValue(Users.class);
 
+
                     if(usersData.getPhone().equals(phone)){
 
                         if(usersData.getPassword().equals(password)){
@@ -93,9 +94,11 @@ public class LoginActivity extends AppCompatActivity {
                             lodingBar.dismiss();
 
                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            Prevalent.currentOnlineUsers = usersData;
                             startActivity(intent);
-                            TextView userName = (TextView) findViewById(R.id.nombrePersona);
-                            userName.setText("Osvaldo Cruz");
+
+
+
                         }
                         else{
                             lodingBar.dismiss();

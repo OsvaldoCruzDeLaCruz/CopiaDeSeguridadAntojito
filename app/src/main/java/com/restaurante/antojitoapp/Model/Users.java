@@ -2,24 +2,24 @@ package com.restaurante.antojitoapp.Model;
 
 public class Users {
 
-    private String name, phone, password;
+    private String usuario, phone, password;
 
     public Users(){
 
     }
 
-    public Users(String name, String phone, String password) {
-        this.name = name;
+    public Users(String usuario, String phone, String password) {
+        this.usuario = usuario;
         this.phone = phone;
         this.password = password;
     }
 
     public String getName() {
-        return name;
+        return usuario;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.usuario = usuario;
     }
 
     public String getPhone() {

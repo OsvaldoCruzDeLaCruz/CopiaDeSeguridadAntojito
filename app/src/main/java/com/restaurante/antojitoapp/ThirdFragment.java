@@ -2,12 +2,22 @@ package com.restaurante.antojitoapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.restaurante.antojitoapp.Prevalent.Prevalent;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +34,9 @@ public class ThirdFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private DatabaseReference mData = FirebaseDatabase.getInstance().getReference();
+    String numeroUsuario;
+    TextView userName;
 
     public ThirdFragment() {
         // Required empty public constructor
@@ -61,9 +74,33 @@ public class ThirdFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_third, container, false);
-        TextView userName = (TextView) view.findViewById(R.id.nombrePersona);
-        String nombre = "Osvaldo Cruz";
-        userName.setText(nombre);
+        userName = (TextView) view.findViewById(R.id.nombrePersona);
+        TextView usarPhone = (TextView) view.findViewById(R.id.userPhone);
+        usarPhone.setText(Prevalent.currentOnlineUsers.getPhone());
+
+        numeroUsuario = Prevalent.currentOnlineUsers.getPhone().toString();
+        nombreUsuario(numeroUsuario);
+
         return view;
+    }
+
+    public void nombreUsuario(String numero){
+        mData.child("Users").child(numero).addValueEventListener(new ValueEventListener() {
+            String nombre;
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+
+
+                userName.setText(snapshot.child("usuario").getValue().toString());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+
     }
 }
