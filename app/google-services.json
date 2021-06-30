@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "298509879084",
+    "project_id": "appantojito",
+    "storage_bucket": "appantojito.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298509879084:android:ecc2120df293f549e98e89",
+        "android_client_info": {
+          "package_name": "com.restaurante.antojitoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "298509879084-cmobg4absltf569l0g6ck58mn153t4b9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLEX6m1ioHVLoJmN6Z427gCDvmaty5unI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "298509879084-cmobg4absltf569l0g6ck58mn153t4b9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
