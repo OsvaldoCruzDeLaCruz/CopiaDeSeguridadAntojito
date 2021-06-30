@@ -61,7 +61,9 @@ public class ThirdFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_third, container, false);
-        TextView userName = (TextView) view.findViewById(R.id.)
-        return inflater.inflate(R.layout.fragment_third, container, false);
+        TextView userName = (TextView) view.findViewById(R.id.nombrePersona);
+        String nombre = "Osvaldo Cruz";
+        userName.setText(nombre);
+        return view;
     }
 }
