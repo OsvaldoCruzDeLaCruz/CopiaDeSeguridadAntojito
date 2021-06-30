@@ -2,15 +2,20 @@ package com.restaurante.antojitoapp;
 
 import android.os.Bundle;
 
+<<<<<<< HEAD
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+=======
+import androidx.fragment.app.Fragment;
+>>>>>>> 47ecdb230816fc7f6851a430aab49e9a39800eee
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+<<<<<<< HEAD
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +26,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+=======
+>>>>>>> 47ecdb230816fc7f6851a430aab49e9a39800eee
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FirstFragment#newInstance} factory method to
@@ -36,11 +43,14 @@ public class FirstFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+<<<<<<< HEAD
     private DatabaseReference mData;
 
     RecyclerView recyclerView;
     ArrayList<ListElement> listaProductos;
 
+=======
+>>>>>>> 47ecdb230816fc7f6851a430aab49e9a39800eee
 
     public FirstFragment() {
         // Required empty public constructor
@@ -76,6 +86,7 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+<<<<<<< HEAD
         View vista = inflater.inflate(R.layout.fragment_first, container, false);
 
         listaProductos = new ArrayList<>();
@@ -123,5 +134,9 @@ public class FirstFragment extends Fragment {
         });
 
 
+=======
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_first, container, false);
+>>>>>>> 47ecdb230816fc7f6851a430aab49e9a39800eee
     }
 }

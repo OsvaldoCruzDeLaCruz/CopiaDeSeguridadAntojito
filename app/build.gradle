@@ -48,8 +48,11 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+<<<<<<< HEAD
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
+=======
+>>>>>>> 47ecdb230816fc7f6851a430aab49e9a39800eee
 
 
     testImplementation 'junit:junit:4.+'

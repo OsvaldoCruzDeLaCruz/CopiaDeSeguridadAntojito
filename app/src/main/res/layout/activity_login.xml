@@ -89,7 +89,10 @@
             android:textColorHint="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
+<<<<<<< HEAD
             android:visibility="invisible"
+=======
+>>>>>>> 47ecdb230816fc7f6851a430aab49e9a39800eee
             android:layout_marginLeft="80dp"
             />
 
@@ -127,7 +130,10 @@
         android:textColorHint="@color/black"
         android:textSize="17sp"
         android:textStyle="bold"
+<<<<<<< HEAD
         android:visibility="invisible"
+=======
+>>>>>>> 47ecdb230816fc7f6851a430aab49e9a39800eee
         android:layout_marginLeft="80dp"
         android:layout_marginEnd="23dp"
         />
