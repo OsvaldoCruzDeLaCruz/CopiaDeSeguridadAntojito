@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.restaurante.antojitoapp.Model.ListElement;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

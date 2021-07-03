@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.restaurante.antojitoapp.Model.ListElement;
 import com.squareup.picasso.Picasso;
 
 public class DescriptionActivity extends AppCompatActivity {
