@@ -1,6 +1,8 @@
 package com.restaurante.antojitoapp;
 
-public class ListElement {
+import java.io.Serializable;
+
+public class ListElement implements Serializable {
     public String imagen;
     public String name;
     public String type;

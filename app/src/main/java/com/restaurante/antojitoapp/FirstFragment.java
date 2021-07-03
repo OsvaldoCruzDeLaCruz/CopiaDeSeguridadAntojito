@@ -1,5 +1,6 @@
 package com.restaurante.antojitoapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -102,7 +103,7 @@ public class FirstFragment extends Fragment {
 
                 if (snapshot.exists()) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        String imagen = "R.drawable.hamburguesa";
+                        String imagen = ds.child("image").getValue().toString();
                         String nombre = ds.child("pname").getValue().toString();
                         String precio = ds.child("price").getValue().toString();
                         String descripcion = ds.child("description").getValue().toString();
@@ -115,7 +116,12 @@ public class FirstFragment extends Fragment {
 //                        listaProductos.add(new ListElement("R.drawable.hamburguesa","Papas","Papas","Grande"));
                     }
                 }
-                ListAdapter adapter = new ListAdapter(listaProductos, getContext());
+                ListAdapter adapter = new ListAdapter(listaProductos, getContext(), new ListAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(ListElement item) {
+                        moveToDescription(item);
+                    }
+                });
                 recyclerView.setAdapter(adapter);
             }
 
@@ -125,6 +131,12 @@ public class FirstFragment extends Fragment {
             }
         });
 
+
+    }
+    public void moveToDescription(ListElement item){
+        Intent intent = new Intent(getContext(), DescriptionActivity.class);
+        intent.putExtra("ListElement", item);
+        startActivity(intent);
 
     }
 }
