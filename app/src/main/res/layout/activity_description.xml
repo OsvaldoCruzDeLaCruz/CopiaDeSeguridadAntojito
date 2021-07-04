@@ -64,6 +64,7 @@
         android:textStyle="bold"
         android:textSize="20sp"
         android:gravity="center"
+
         android:hint="Cantidad de producto que deseas agregar"
         android:layout_below="@+id/priceProduct"
 
@@ -79,7 +80,7 @@
         android:textStyle="bold"
         android:textAlignment="center"
         android:text="Agregar al carrito"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="18dp"
         >
 
