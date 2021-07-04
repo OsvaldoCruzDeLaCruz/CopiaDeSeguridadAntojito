@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +38,7 @@ public class ThirdFragment extends Fragment {
     private DatabaseReference mData = FirebaseDatabase.getInstance().getReference();
     String numeroUsuario;
     TextView userName;
+    Button exit;
 
     public ThirdFragment() {
         // Required empty public constructor
@@ -80,6 +82,14 @@ public class ThirdFragment extends Fragment {
 
         numeroUsuario = Prevalent.currentOnlineUsers.getPhone().toString();
         nombreUsuario(numeroUsuario);
+
+        exit = view.findViewById(R.id.exitbtn);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.exit(0);
+            }
+        });
 
         return view;
     }

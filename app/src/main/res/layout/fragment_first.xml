@@ -19,14 +19,12 @@
         android:textSize="34sp"
         android:textStyle="bold" />
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/recyclerId"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/titleTextView">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerId"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/titleTextView"/>
 
-
-</androidx.recyclerview.widget.RecyclerView>
 
 
 </RelativeLayout>

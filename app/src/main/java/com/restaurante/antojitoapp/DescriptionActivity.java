@@ -120,7 +120,9 @@ public class DescriptionActivity extends AppCompatActivity {
 
                                     if (task.isSuccessful()){
                                         Toast.makeText(DescriptionActivity.this, "Agregado a tu carrito", Toast.LENGTH_SHORT).show();
-                                        
+
+
+
                                     }
                                 }
                             });
