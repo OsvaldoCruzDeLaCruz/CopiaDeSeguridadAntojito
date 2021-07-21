@@ -85,7 +85,7 @@ public class FirstFragment extends Fragment {
 
         listaProductos = new ArrayList<>();
         recyclerView = vista.findViewById(R.id.recyclerId);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true); //Problema si se genera el apk
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 

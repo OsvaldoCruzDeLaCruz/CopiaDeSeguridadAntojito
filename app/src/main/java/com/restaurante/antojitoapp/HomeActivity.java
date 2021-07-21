@@ -2,6 +2,7 @@ package com.restaurante.antojitoapp;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +30,9 @@ public class HomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationSelectedListener);
 
         loadFragment(firstFragment);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btnCart);
+        fab.setOnClickListener(Snackbar.make());
 
 
     }
@@ -56,4 +62,5 @@ public class HomeActivity extends AppCompatActivity {
         transaction.commit();
 
     }
+
 }
