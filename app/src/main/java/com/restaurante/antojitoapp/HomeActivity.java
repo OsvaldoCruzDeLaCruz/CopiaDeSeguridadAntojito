@@ -29,6 +29,7 @@ public class HomeActivity extends AppCompatActivity {
         loadFragment(firstFragment);
 
 
+        
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
