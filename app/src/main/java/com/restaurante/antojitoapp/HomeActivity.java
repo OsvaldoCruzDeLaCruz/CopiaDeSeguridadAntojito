@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +39,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         
     }
@@ -69,4 +68,5 @@ public class HomeActivity extends AppCompatActivity {
         transaction.commit();
 
     }
+
 }
