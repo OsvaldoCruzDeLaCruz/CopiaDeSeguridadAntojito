@@ -111,7 +111,7 @@ public class FirstFragment extends Fragment {
                         String descripcion = ds.child("description").getValue().toString();
 
 
-                        listaProductos.add(new ListElement(id,imagen, nombre, descripcion, precio));
+                        listaProductos.add(new ListElement(id,imagen, nombre, descripcion, ("$"+precio)));
 //
 //                        listaProductos.add(new ListElement("R.drawable.hamburguesa","Pizza","Pizza","Grande"));
 //                        listaProductos.add(new ListElement("R.drawable.hamburguesa","HotDog","HotDog","Grande"));

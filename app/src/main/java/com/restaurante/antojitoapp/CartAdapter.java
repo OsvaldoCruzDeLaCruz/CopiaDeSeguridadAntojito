@@ -17,10 +17,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     private LayoutInflater mInflater;
     private Context context;
 
-    public CartAdapter(List<CartElement> mData, Context context) {
-        this.mData = mData;
+    public CartAdapter(List<CartElement> itemList, Context context) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
+        this.mData = itemList;
+
     }
     
     @Override
@@ -33,7 +34,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         return new CartAdapter.ViewHolder(view);
      }
      @Override
-    public void onBindViewHolder(final  CartAdapter.ViewHolder holder, final int position){
+    public void onBindViewHolder(final CartAdapter.ViewHolder holder, final int position){
         holder.bindData(mData.get(position));
 
      }
@@ -41,6 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
      public void setItems(List<CartElement> item){
         mData = item;
      }
+
      public class ViewHolder extends RecyclerView.ViewHolder{
         TextView productoNombre, precioTotal, productoCantidad;
 
