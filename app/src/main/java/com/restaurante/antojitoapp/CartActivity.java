@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.restaurante.antojitoapp.Model.CartElement;
+import com.restaurante.antojitoapp.Model.ListElement;
 import com.restaurante.antojitoapp.Prevalent.Prevalent;
 
 import org.jetbrains.annotations.NotNull;
@@ -46,7 +47,11 @@ public class CartActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
 
+                        String id = ds.child("pid").getValue().toString();
+                        String image = ds.child("image").getValue().toString();
                         String nombre = ds.child("pname").getValue().toString();
+                        String descripcion = ds.child("description").getValue().toString();
+                        String categoria = ds.child("category").getValue().toString();
 
                         int precio = Integer.parseInt(ds.child("price").getValue().toString());
                         int cantidad = Integer.parseInt(ds.child("amountProduct").getValue().toString());
@@ -55,7 +60,8 @@ public class CartActivity extends AppCompatActivity {
                         String totalString = String.valueOf(total);
                         String cantidadString = String.valueOf(cantidad);
 
-                        listaProductosCart.add(new CartElement(("Producto: "+nombre), ("Cantidad: " + cantidadString), ("Total a pagar: "+totalString)));
+//                        listaProductosCart.add(new CartElement(id, image, ("Producto: "+nombre), tipo, ("Cantidad: " + cantidadString), ("Total a pagar: "+totalString), categoria));
+                        listaProductosCart.add(new CartElement(id, image, nombre, descripcion, cantidadString, totalString, categoria));
 
                         System.out.println(nombre );
                         System.out.println(precio );
@@ -67,7 +73,15 @@ public class CartActivity extends AppCompatActivity {
                 CartAdapter cartAdapter = new CartAdapter(listaProductosCart, context, new CartAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(CartElement item) {
-                        moveToDescription(item);
+                        String id = item.getIdProducto();
+                        String imagen = item.getImage();
+                        String name = item.getNombreProducto();
+                        String type = item.getDescripcion();
+                        String size = item.getPrecio();
+                        String category = item.getCategoria();
+
+                        ListElement listElement = new ListElement(id, imagen, name, type, size, category);
+                        moveToDescription(listElement);
                     }
                 });
                 recyclerView.setAdapter(cartAdapter);
@@ -84,7 +98,7 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-    private void moveToDescription(CartElement item) {
+    private void moveToDescription(ListElement item) {
         Intent intent = new Intent(this, DescriptionActivity.class);
         intent.putExtra("ListElement", item);
         startActivity(intent);
