@@ -47,6 +47,7 @@ public class CartActivity extends AppCompatActivity {
                     for (DataSnapshot ds : snapshot.getChildren()) {
 
                         String nombre = ds.child("pname").getValue().toString();
+
                         int precio = Integer.parseInt(ds.child("price").getValue().toString());
                         int cantidad = Integer.parseInt(ds.child("amountProduct").getValue().toString());
 

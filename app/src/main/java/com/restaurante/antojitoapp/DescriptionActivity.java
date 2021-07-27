@@ -37,7 +37,7 @@ public class DescriptionActivity extends AppCompatActivity {
     EditText cantidad;
     Button boton;
 
-    String idProducto, imagenProducto, nombreProducto, descripcionProducto, precioProducto, cantidadProducto;
+    String idProducto, imagenProducto, nombreProducto, descripcionProducto, precioProducto, cantidadProducto, image;
 
 
 
@@ -52,7 +52,8 @@ public class DescriptionActivity extends AppCompatActivity {
         imagenProducto = element.getImagen().toString();
         nombreProducto = element.getName().toString();
         descripcionProducto = element.getType().toString();
-        precioProducto =  element.getSize().toString() ;
+        precioProducto =  element.getSize().toString();
+        image = element.getImagen().toString();
 
 
         imagen  = findViewById(R.id.imageViewProduct);
@@ -99,6 +100,7 @@ public class DescriptionActivity extends AppCompatActivity {
         cartMap.put("pid", idProducto);
         cartMap.put("pname", nombreProducto);
         cartMap.put("price", precioProducto);
+        cartMap.put("image", image);
         cartMap.put("description", descripcionProducto);
         cartMap.put("amountProduct", Integer.parseInt(cantidadProducto));
         cartMap.put("time", saveCurrentTime);
