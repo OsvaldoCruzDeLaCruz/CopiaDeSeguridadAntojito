@@ -3,6 +3,7 @@ package com.restaurante.antojitoapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -132,7 +133,13 @@ public class DescriptionActivity extends AppCompatActivity {
                                 }
                             });
                 }
+
+                
             }
         });
+
+        Intent intent = new Intent(DescriptionActivity.this, HomeActivity.class);
+        startActivity(intent);
+        
     }
 }
