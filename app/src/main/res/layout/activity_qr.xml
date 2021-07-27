@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DescriptionActivity">
+
+
+    <TextView
+        android:id="@+id/titleProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Tu pedido"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/txtinforationQR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleProduct"
+        android:text="Presenta este codigo QR en el establecimiento, para que te puedan entregar
+                        tu producto"
+        android:textColor="@android:color/black"
+        android:textStyle="normal"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+    </TextView>
+
+    <ImageView
+        android:id="@+id/imageViewProduct"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:scaleType="centerCrop"
+        android:layout_below="@+id/txtinforationQR"
+        >
+
+    </ImageView>
+
+
+    <TextView
+        android:id="@+id/txtinforationTimeQR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="En media hora apartir de que hiciste tu pedido, puedes pasar por el."
+        android:textColor="@android:color/black"
+        android:textStyle="italic"
+        android:textSize="15sp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="10dp">
+    </TextView>
+
+
+
+
+</RelativeLayout>

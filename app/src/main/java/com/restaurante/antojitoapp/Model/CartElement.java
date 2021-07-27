@@ -1,6 +1,8 @@
-package com.restaurante.antojitoapp;
+package com.restaurante.antojitoapp.Model;
 
-public class CartElement {
+import java.io.Serializable;
+
+public class CartElement  implements Serializable {
     public String nombreProducto, cantidadProducto, precio;
 
     public CartElement(String nombreProducto, String cantidadProducto, String precio) {

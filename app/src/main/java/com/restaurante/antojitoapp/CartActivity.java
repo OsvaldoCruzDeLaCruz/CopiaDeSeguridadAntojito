@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.restaurante.antojitoapp.Model.ListElement;
+import com.restaurante.antojitoapp.Model.CartElement;
 import com.restaurante.antojitoapp.Prevalent.Prevalent;
 
 import org.jetbrains.annotations.NotNull;
@@ -62,7 +63,12 @@ public class CartActivity extends AppCompatActivity {
                     }
                 }
 
-                CartAdapter cartAdapter = new CartAdapter(listaProductosCart, context);
+                CartAdapter cartAdapter = new CartAdapter(listaProductosCart, context, new CartAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(CartElement item) {
+                        moveToDescription(item);
+                    }
+                });
                 recyclerView.setAdapter(cartAdapter);
 
             }
@@ -75,5 +81,11 @@ public class CartActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void moveToDescription(CartElement item) {
+        Intent intent = new Intent(this, DescriptionActivity.class);
+        intent.putExtra("ListElement", item);
+        startActivity(intent);
     }
 }

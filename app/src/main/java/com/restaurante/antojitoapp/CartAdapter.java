@@ -1,13 +1,14 @@
 package com.restaurante.antojitoapp;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.restaurante.antojitoapp.Model.CartElement;
 
 import java.util.List;
 
@@ -16,11 +17,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     private List<CartElement> mData;
     private LayoutInflater mInflater;
     private Context context;
+    final  CartAdapter.OnItemClickListener listener;
 
-    public CartAdapter(List<CartElement> itemList, Context context) {
+    public interface OnItemClickListener{
+        void onItemClick(CartElement item);
+    }
+
+    public CartAdapter(List<CartElement> itemList, Context context, CartAdapter.OnItemClickListener listener) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.mData = itemList;
+        this.listener = listener;
+
 
     }
     
@@ -57,6 +65,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
             productoNombre.setText(item.getNombreProducto());
             productoCantidad.setText(item.getCantidadProducto());
             precioTotal.setText(item.getPrecio());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(item);
+                }
+            });
 
         }
      }

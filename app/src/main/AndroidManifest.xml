@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AntojitoApp">
-        <activity android:name=".CartActivity"></activity>
+        <activity android:name=".QrActivity"></activity>
+        <activity android:name=".CartActivity" />
         <activity android:name=".DescriptionActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".RegisterActivity" />
