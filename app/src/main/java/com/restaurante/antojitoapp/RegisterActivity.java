@@ -55,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         String name = InputName.getText().toString();
         String phone = InputPhoneNumber.getText().toString();
         String password = InputPassword.getText().toString();
+        String admin = "0";
 
 
         if(TextUtils.isEmpty(name)){
@@ -72,13 +73,13 @@ public class RegisterActivity extends AppCompatActivity {
             lodingBar.setCanceledOnTouchOutside(false);
             lodingBar.show();
 
-            ValidatePhoneNumber(name, phone, password);
+            ValidatePhoneNumber(name, phone, password, admin);
         }
 
 
     }
 
-    private void ValidatePhoneNumber(String name, String phone, String password) {
+    private void ValidatePhoneNumber(String name, String phone, String password, String admin) {
         final DatabaseReference RootRef;
         RootRef = FirebaseDatabase.getInstance().getReference();
 
@@ -91,6 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                     HashMap<String, Object> userDataMap = new HashMap<>();
                     userDataMap.put("phone", phone);
                     userDataMap.put("usuario", name);
+                    userDataMap.put("admin", admin);
                     userDataMap.put("password", password);
 
                     RootRef.child("Users").child(phone).updateChildren(userDataMap)

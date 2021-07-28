@@ -1,4 +1,4 @@
-package com.restaurante.antojitoapp;
+package com.restaurante.antojitoapp.Model;
 
 public class OrderElement {
     public String idOrder, total, telefono;

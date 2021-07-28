@@ -42,13 +42,12 @@ public class CartActivity extends AppCompatActivity {
     int precio;
     int total;
     int cantidad;
-
     String idOrder;
     String totalString;
     String pid;
     String cantidadString;
     final DatabaseReference RootRef =  FirebaseDatabase.getInstance().getReference();
-    String numeroUsuario = Prevalent.currentOnlineUsers.getPhone().toString();
+    String numeroUsuario;
     HashMap<String, Object> products = new HashMap<>();
     HashMap<String, Object> information = new HashMap<>();
 
@@ -58,6 +57,7 @@ public class CartActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        numeroUsuario = Prevalent.currentOnlineUsers.getPhone().toString();
         btnGenerate = findViewById(R.id.btnGenerate);
         recyclerView = findViewById(R.id.CartRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -122,7 +122,6 @@ public class CartActivity extends AppCompatActivity {
 
                         information.put("total", totalString);
                         information.put("status", "0");
-
                         information.put("phone", numeroUsuario);
 
 
@@ -179,13 +178,15 @@ public class CartActivity extends AppCompatActivity {
         String minutoF = minuto.format(calForDate.getTime());
         SimpleDateFormat segundo = new  SimpleDateFormat("sss");
         String segundoF = segundo.format(calForDate.getTime());
+        SimpleDateFormat milesegundo = new  SimpleDateFormat("SS");
+        String milesegundoF = segundo.format(calForDate.getTime());
 
-        System.out.println("anio"+anioF);
-        System.out.println(diaF);
-        System.out.println(horaF);
-        System.out.println(minutoF);
-        System.out.println(segundoF);
-        idOrder = numeroUsuario+anioF+diaF+horaF+minutoF+segundoF;
+        idOrder = numeroUsuario+anioF+diaF+horaF+minutoF+segundoF+milesegundoF;
+
+
+
+
+
         information.put("oid", idOrder);
 
 
@@ -193,63 +194,35 @@ public class CartActivity extends AppCompatActivity {
 
 
     //Genera la orden para la tienda
-                RootRef.child("Orders").child("OrdersStore").child(idOrder).child(numeroUsuario).child("Products").setValue(listaProductosCart)
-                      .addOnCompleteListener(new OnCompleteListener<Void>() {
-                          @Override
-                          public void onComplete(@NonNull @NotNull Task<Void> task) {
-
-                              //agregando informacion al pedido
-                              RootRef.child("Orders").child("OrdersStore").child(idOrder).child(numeroUsuario).updateChildren(information)
-                                      .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                          @Override
-                                          public void onComplete(@NonNull @NotNull Task<Void> task) {
-//                                              generateOrderToCostomer();
 
 //     Genera el pedido para el cliente
 
-                                              RootRef.child("Orders").child("OrdersCostumers").child(numeroUsuario).child(idOrder).child("Products").setValue(listaProductosCart)
-                                                      .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                          @Override
-                                                          public void onComplete(@NonNull @NotNull Task<Void> task) {
+  RootRef.child("Orders").child(idOrder).child(numeroUsuario).child("Products").setValue(listaProductosCart)
+          .addOnCompleteListener(new OnCompleteListener<Void>() {
+              @Override
+              public void onComplete(@NonNull @NotNull Task<Void> task) {
 
-                                                              RootRef.child("Orders").child("OrdersCostumers").child(numeroUsuario).child(idOrder).updateChildren(information)
-                                                                      .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                          @Override
-                                                                          public void onComplete(@NonNull @NotNull Task<Void> task) {
+                                  RootRef.child("Orders").child(idOrder).child(numeroUsuario).updateChildren(information)
+                                          .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                              @Override
+                                              public void onComplete(@NonNull @NotNull Task<Void> task) {
 
-//                                        Verifica que se ingresaron correctamente los valores
+                                                  if(task.isSuccessful()){
 
-                                                                              RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                                  @Override
-                                                                                  public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                                                                      if(snapshot.child("Orders").child("OrdersCostumers").child(numeroUsuario).child(idOrder).child("oid").exists()){
+                                                      lodingBar.dismiss();
+                                                      Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
+                                                      Intent intent = new Intent(CartActivity.this, QrActivity.class);
+                                                      intent.putExtra("idOrder", idOrder);
+                                                      startActivity(intent);
 
-                                                                                          lodingBar.dismiss();
-                                                                                          Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
-                                                                                          Intent intent = new Intent(CartActivity.this, QrActivity.class);
-                                                                                          intent.putExtra("idOrder", idOrder);
-                                                                                          startActivity(intent);
-
-                                                                                      }
-                                                                                  }
-
-                                                                                  @Override
-                                                                                  public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                                                                                  }
-                                                                              });
-
-                                                                          }
-                                                                      });
-                                                          }
-                                                      });
+                                                  }
+                                              }
+                                          });
+                              }
+          });
 
 
-                                          }
-                                      });
 
-                          }
-                      });
     }
 
 
@@ -267,9 +240,15 @@ public class CartActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull @NotNull Task<Void> task) {
 
-//                                        Agrega lo
+                                        if(task.isSuccessful()){
 
+                                            lodingBar.dismiss();
+                                            Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(CartActivity.this, QrActivity.class);
+                                            intent.putExtra("idOrder", idOrder);
+                                            startActivity(intent);
 
+                                        }
 
                                     }
                                 });

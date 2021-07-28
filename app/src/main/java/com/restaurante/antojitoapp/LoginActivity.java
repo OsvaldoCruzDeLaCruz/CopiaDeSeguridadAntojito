@@ -85,18 +85,27 @@ public class LoginActivity extends AppCompatActivity {
 
                     Users usersData = snapshot.child(parentDbName).child(phone).getValue(Users.class);
 
-
                     if(usersData.getPhone().equals(phone)){
 
                         if(usersData.getPassword().equals(password)){
 
-                            Toast.makeText(LoginActivity.this, "Accedio correctamente", Toast.LENGTH_SHORT).show();
-                            lodingBar.dismiss();
+                            if(usersData.getAdmin().equals("1")){
+                                Toast.makeText(LoginActivity.this, "Accedio como administrador", Toast.LENGTH_SHORT).show();
+                                lodingBar.dismiss();
 
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            Prevalent.currentOnlineUsers = usersData;
-                            startActivity(intent);
 
+
+
+                            }
+                            else {
+
+                                Toast.makeText(LoginActivity.this, "Accedio correctamente", Toast.LENGTH_SHORT).show();
+                                lodingBar.dismiss();
+
+                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                Prevalent.currentOnlineUsers = usersData;
+                                startActivity(intent);
+                            }
 
 
                         }

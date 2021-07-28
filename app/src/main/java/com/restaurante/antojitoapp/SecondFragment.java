@@ -1,6 +1,5 @@
 package com.restaurante.antojitoapp;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,7 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.restaurante.antojitoapp.Model.ListElement;
+import com.restaurante.antojitoapp.Model.OrderElement;
 import com.restaurante.antojitoapp.Prevalent.Prevalent;
 
 import org.jetbrains.annotations.NotNull;
@@ -85,6 +84,7 @@ public class SecondFragment extends Fragment {
 
         View vista = inflater.inflate(R.layout.fragment_second, container, false);
         listaOrdenes = new ArrayList<>();
+
         recyclerView = (RecyclerView) vista.findViewById(R.id.recyclerOrders);
 //        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -105,25 +105,44 @@ public class SecondFragment extends Fragment {
         mData = FirebaseDatabase.getInstance().getReference();
 
 
-        mData.child("Orders").child("OrdersCostumers").child(numeroUsuario).addValueEventListener(new ValueEventListener() {
+        mData.child("Orders").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
+                        String childre = ds.child(numeroUsuario).child("oid").getValue().toString();
 
-                        String id = ds.child("oid").getValue().toString();
-                        String numero = ds.child("phone").getValue().toString();;
-                        String total = ds.child("total").getValue().toString();
+                            mData.child("Orders").child(childre).child(numeroUsuario).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        System.out.println("*/*/*/*//*" + snapshot);
+                                        String id = snapshot.child("oid").getValue().toString();
+                                        String numero = snapshot.child("phone").getValue().toString();
 
-                        System.out.println("**********" + id);
-                        System.out.println("**********" + numero);
-                        System.out.println("**********" + total);
+                                        String total = snapshot.child("total").getValue().toString();
 
-                        listaOrdenes.add(new OrderElement(id, total, numero));
+                                        System.out.println("**********" + id);
+                                        System.out.println("**********" + numero);
+                                        System.out.println("**********" + total);
+
+                                        listaOrdenes.add(new OrderElement(id, total, numero));
+                                    }
+
+                                    OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, getContext());
+                                    recyclerView.setAdapter(orderAdapter);
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                }
+                            });
+    //                          String phoneDS = ds.child("phone").getValue().toString();
+
                     }
                 }
-                OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, getContext());
-                recyclerView.setAdapter(orderAdapter);
 
             }
 
