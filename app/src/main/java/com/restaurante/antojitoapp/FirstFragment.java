@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -78,6 +79,7 @@ public class FirstFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -90,14 +92,21 @@ public class FirstFragment extends Fragment {
         recyclerView.setHasFixedSize(true); //Problema si se genera el apk
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        FloatingActionButton btnCart =  vista.findViewById(R.id.btnCart);
 
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CartActivity.class);
+                startActivity(intent);
+            }
+        });
         llenarLista();
-
-
         return vista;
     }
 
     private void llenarLista() {
+
 
 
         mData = FirebaseDatabase.getInstance().getReference();
@@ -137,7 +146,6 @@ public class FirstFragment extends Fragment {
 
             }
         });
-
 
     }
     public void moveToDescription(ListElement item){

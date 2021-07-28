@@ -39,6 +39,7 @@ public class ThirdFragment extends Fragment {
     String numeroUsuario;
     TextView userName;
     Button exit;
+    Button cartBtn;
 
     public ThirdFragment() {
         // Required empty public constructor

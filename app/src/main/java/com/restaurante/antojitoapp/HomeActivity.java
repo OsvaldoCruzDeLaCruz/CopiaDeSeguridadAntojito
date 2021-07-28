@@ -30,16 +30,6 @@ public class HomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationSelectedListener);
 
         loadFragment(firstFragment);
-
-        FloatingActionButton btnCart = (FloatingActionButton) findViewById(R.id.btnCart);
-        btnCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, CartActivity.class);
-                startActivity(intent);
-            }
-        });
-
         
     }
 

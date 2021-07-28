@@ -33,11 +33,12 @@
         style="@style/BottonNavigation"  />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnCart"
+        android:id="@+id/btncartt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/nav_cart"
         android:layout_alignParentEnd="true"
+        android:visibility="invisible"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="80dp"
         android:layout_marginRight="20dp"
