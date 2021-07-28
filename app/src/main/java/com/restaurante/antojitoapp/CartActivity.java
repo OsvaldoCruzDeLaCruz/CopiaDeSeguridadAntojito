@@ -88,7 +88,6 @@ public class CartActivity extends AppCompatActivity {
     public void init(){
 
 
-
         RootRef.child("CartList").child("PedidosUsuarios").child(numeroUsuario).child("Products").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -193,7 +192,7 @@ public class CartActivity extends AppCompatActivity {
 
 
 
-
+    //Genera la orden para la tienda
                 RootRef.child("Orders").child("OrdersStore").child(idOrder).child(numeroUsuario).child("Products").setValue(listaProductosCart)
                       .addOnCompleteListener(new OnCompleteListener<Void>() {
                           @Override
@@ -204,7 +203,47 @@ public class CartActivity extends AppCompatActivity {
                                       .addOnCompleteListener(new OnCompleteListener<Void>() {
                                           @Override
                                           public void onComplete(@NonNull @NotNull Task<Void> task) {
-                                              generateOrderToCostomer();
+//                                              generateOrderToCostomer();
+
+//     Genera el pedido para el cliente
+
+                                              RootRef.child("Orders").child("OrdersCostumers").child(numeroUsuario).child(idOrder).child("Products").setValue(listaProductosCart)
+                                                      .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                          @Override
+                                                          public void onComplete(@NonNull @NotNull Task<Void> task) {
+
+                                                              RootRef.child("Orders").child("OrdersCostumers").child(numeroUsuario).child(idOrder).updateChildren(information)
+                                                                      .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                          @Override
+                                                                          public void onComplete(@NonNull @NotNull Task<Void> task) {
+
+//                                        Verifica que se ingresaron correctamente los valores
+
+                                                                              RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                                  @Override
+                                                                                  public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                                                                      if(snapshot.child("Orders").child("OrdersCostumers").child(numeroUsuario).child(idOrder).child("oid").exists()){
+
+                                                                                          lodingBar.dismiss();
+                                                                                          Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
+                                                                                          Intent intent = new Intent(CartActivity.this, QrActivity.class);
+                                                                                          intent.putExtra("idOrder", idOrder);
+                                                                                          startActivity(intent);
+
+                                                                                      }
+                                                                                  }
+
+                                                                                  @Override
+                                                                                  public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                                                                  }
+                                                                              });
+
+                                                                          }
+                                                                      });
+                                                          }
+                                                      });
+
 
                                           }
                                       });
@@ -228,6 +267,10 @@ public class CartActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull @NotNull Task<Void> task) {
 
+//                                        Agrega lo
+
+
+
                                     }
                                 });
 
@@ -236,7 +279,7 @@ public class CartActivity extends AppCompatActivity {
                 });
 
 
-        validateOrder();
+//        validateOrder();
     }
     public void validateOrder(){
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
