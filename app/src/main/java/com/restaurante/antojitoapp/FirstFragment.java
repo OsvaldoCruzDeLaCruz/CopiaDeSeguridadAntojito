@@ -1,5 +1,6 @@
 package com.restaurante.antojitoapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -41,7 +42,7 @@ public class FirstFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private DatabaseReference mData;
-
+    Context context;
     RecyclerView recyclerView;
     ArrayList<ListElement> listaProductos;
 
@@ -66,6 +67,7 @@ public class FirstFragment extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -82,7 +84,7 @@ public class FirstFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_first, container, false);
-
+        context = getContext();
         listaProductos = new ArrayList<>();
         recyclerView = vista.findViewById(R.id.recyclerId);
         recyclerView.setHasFixedSize(true); //Problema si se genera el apk
@@ -96,6 +98,7 @@ public class FirstFragment extends Fragment {
     }
 
     private void llenarLista() {
+
 
         mData = FirebaseDatabase.getInstance().getReference();
         mData.child("Products").addValueEventListener(new ValueEventListener() {
@@ -119,11 +122,12 @@ public class FirstFragment extends Fragment {
 //                        listaProductos.add(new ListElement("R.drawable.hamburguesa","Papas","Papas","Grande"));
                     }
                 }
-                ListAdapter adapter = new ListAdapter(listaProductos, getContext(), new ListAdapter.OnItemClickListener() {
+                ListAdapter adapter = new ListAdapter(listaProductos, context, new ListAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(ListElement item) {
                         moveToDescription(item);
                     }
+
                 });
                 recyclerView.setAdapter(adapter);
             }

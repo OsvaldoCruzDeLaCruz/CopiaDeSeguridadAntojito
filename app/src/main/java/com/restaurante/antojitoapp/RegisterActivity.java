@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button CreateACcountButton;
     private EditText InputName, InputPhoneNumber, InputPassword;
     private ProgressDialog lodingBar;
-    private DatabaseReference mDatabase;
+
 
 
     @Override
@@ -85,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
                 if(!(snapshot.child("Users").child(phone).exists())){
                     HashMap<String, Object> userDataMap = new HashMap<>();
