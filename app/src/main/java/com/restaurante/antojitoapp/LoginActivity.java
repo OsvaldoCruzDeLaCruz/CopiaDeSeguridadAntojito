@@ -93,7 +93,9 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Accedio como administrador", Toast.LENGTH_SHORT).show();
                                 lodingBar.dismiss();
 
-
+                                Intent intent = new Intent(LoginActivity.this, HomeAdminActivity.class);
+                                Prevalent.currentOnlineUsers = usersData;
+                                startActivity(intent);
 
 
                             }
