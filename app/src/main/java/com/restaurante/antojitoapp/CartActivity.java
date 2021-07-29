@@ -189,18 +189,7 @@ public class CartActivity extends AppCompatActivity {
 
         information.put("oid", idOrder);
         data.put("oid", idOrder);
-
-
-
-    //Genera la orden para la tienda
-
-//     Genera el pedido para el cliente
-
-
-        data.put("Product", products);
-//        data.put("information", information);
-
-
+        data.put("Product", listaProductosCart);
 
 
         RootRef.child("Orders").child(idOrder).child(numeroUsuario).setValue(data)
@@ -220,44 +209,6 @@ public class CartActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
-
-
-
-
-//  RootRef.child("Orders").child(idOrder).child(numeroUsuario).child("Products").setValue(listaProductosCart)
-//          .addOnCompleteListener(new OnCompleteListener<Void>() {
-//              @Override
-//              public void onComplete(@NonNull @NotNull Task<Void> task) {
-//
-//                          if(task.isSuccessful()){
-//
-//
-//                              RootRef.child("Orders").child(idOrder).child(numeroUsuario).updateChildren(information)
-//                                      .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                          @Override
-//                                          public void onComplete(@NonNull @NotNull Task<Void> task) {
-//
-//                                              if (task.isSuccessful()) {
-//
-//
-//                                                  Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
-//                                                  Intent intent = new Intent(CartActivity.this, QrActivity.class);
-//                                                  intent.putExtra("idOrder", idOrder);
-//                                                  startActivity(intent);
-//                                                  lodingBar.dismiss();
-//
-//                                              }
-//                                          }
-//                                      });
-//                        }
-//                          else {
-//                              callback();
-//                          }
-//              }
-//          });
-
 
 
     }
