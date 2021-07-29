@@ -57,7 +57,11 @@ public class HomeAdminActivity extends AppCompatActivity {
             if(result.getContents() == null){
                 Toast.makeText(this, "Lectura cancelada", Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(HomeAdminActivity.this, ScanActivity.class);
+                intent.putExtra("idOrder", result.getContents());
+                startActivity(intent);
+                Toast.makeText(this, "Escaneo correcto", Toast.LENGTH_SHORT).show();
             }
         }else {
             super.onActivityResult(requestCode, resultCode, data);
