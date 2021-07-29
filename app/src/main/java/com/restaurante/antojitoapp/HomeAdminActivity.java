@@ -67,7 +67,7 @@ public class HomeAdminActivity extends AppCompatActivity {
             if(result.getContents() == null){
                 Toast.makeText(this, "Lectura cancelada", Toast.LENGTH_SHORT).show();
             }else {
-
+                    String numscan = result.getContents();
                     final DatabaseReference RootRef;
                     RootRef = FirebaseDatabase.getInstance().getReference();
 
@@ -76,21 +76,30 @@ public class HomeAdminActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
                                 for (DataSnapshot ds : snapshot.getChildren()) {
+                                    if(ds.exists()){
                                     for (DataSnapshot ds2 : ds.getChildren()) {
-                                            if(ds2.exists()){
-                                                String oid = ds2.child("oid").getValue().toString();
-                                                if (oid.equals(result.getContents())) {
+                                        if (ds2.exists()) {
+                                            String oid = ds2.child("oid").getValue().toString();
+                                            String status = ds2.child("status").getValue().toString();
+                                            if (oid.equals(numscan)) {
+                                                if (status.equals("0")) {
                                                     Intent intent = new Intent(HomeAdminActivity.this, ScanActivity.class);
                                                     intent.putExtra("idOrder", result.getContents());
                                                     startActivity(intent);
                                                     Toast.makeText(context, "Escaneo correcto", Toast.LENGTH_SHORT).show();
+                                                } else if (status.equals("1")) {
+                                                    Toast.makeText(context, "Ya esta pagado el pedido", Toast.LENGTH_SHORT).show();
                                                 }
-                                                else{
-                                                    Toast.makeText(context, "No existe ningun pedido con ese codigo", Toast.LENGTH_SHORT).show();
-                                                }
-                                             }
+                                            }
+
+                                        }
                                     }
+
                                 }
+                                    else {
+                                        Toast.makeText(context, "No existe ningun pedido con ese codigo", Toast.LENGTH_SHORT).show();
+                                    }
+                           }
                             }
                         }
 
