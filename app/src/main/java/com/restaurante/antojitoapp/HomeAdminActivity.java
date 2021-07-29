@@ -1,25 +1,35 @@
 package com.restaurante.antojitoapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import org.jetbrains.annotations.NotNull;
 
 public class HomeAdminActivity extends AppCompatActivity {
 
     Button startScannig, starListOrders;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_admin);
-
+        context = this;
         startScannig =  findViewById(R.id.btnGoScan);
         starListOrders = findViewById(R.id.btnGoOrders);
 
@@ -56,12 +66,41 @@ public class HomeAdminActivity extends AppCompatActivity {
         if(result != null){
             if(result.getContents() == null){
                 Toast.makeText(this, "Lectura cancelada", Toast.LENGTH_SHORT).show();
-            }else{
+            }else {
 
-                Intent intent = new Intent(HomeAdminActivity.this, ScanActivity.class);
-                intent.putExtra("idOrder", result.getContents());
-                startActivity(intent);
-                Toast.makeText(this, "Escaneo correcto", Toast.LENGTH_SHORT).show();
+                    final DatabaseReference RootRef;
+                    RootRef = FirebaseDatabase.getInstance().getReference();
+
+                    RootRef.child("Orders").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                for (DataSnapshot ds : snapshot.getChildren()) {
+                                    for (DataSnapshot ds2 : ds.getChildren()) {
+                                            if(ds2.exists()){
+                                                String oid = ds2.child("oid").getValue().toString();
+                                                if (oid.equals(result.getContents())) {
+                                                    Intent intent = new Intent(HomeAdminActivity.this, ScanActivity.class);
+                                                    intent.putExtra("idOrder", result.getContents());
+                                                    startActivity(intent);
+                                                    Toast.makeText(context, "Escaneo correcto", Toast.LENGTH_SHORT).show();
+                                                }
+                                                else{
+                                                    Toast.makeText(context, "No existe ningun pedido con ese codigo", Toast.LENGTH_SHORT).show();
+                                                }
+                                             }
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                        }
+                    });
+
+
             }
         }else {
             super.onActivityResult(requestCode, resultCode, data);
