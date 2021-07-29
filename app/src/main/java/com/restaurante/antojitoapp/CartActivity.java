@@ -50,6 +50,8 @@ public class CartActivity extends AppCompatActivity {
     String numeroUsuario;
     HashMap<String, Object> products = new HashMap<>();
     HashMap<String, Object> information = new HashMap<>();
+    HashMap<String, Object> data = new HashMap<>();
+
 
 
     @Override
@@ -124,6 +126,10 @@ public class CartActivity extends AppCompatActivity {
                         information.put("status", "0");
                         information.put("phone", numeroUsuario);
 
+                        data.put("total", totalString);
+                        data.put("status", "0");
+                        data.put("phone", numeroUsuario);
+
 
                     }
                 }
@@ -161,9 +167,7 @@ public class CartActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     private void generateOrderToStore() {
-
 
 //Obteniendo las fechas para poder hacer un id junto el numero celular del usuario
         Calendar calForDate = Calendar.getInstance();
@@ -183,13 +187,8 @@ public class CartActivity extends AppCompatActivity {
 
         idOrder = numeroUsuario+anioF+diaF+horaF+minutoF+segundoF+milesegundoF;
 
-
-
-
-
         information.put("oid", idOrder);
-
-
+        data.put("oid", idOrder);
 
 
 
@@ -197,88 +196,74 @@ public class CartActivity extends AppCompatActivity {
 
 //     Genera el pedido para el cliente
 
-  RootRef.child("Orders").child(idOrder).child(numeroUsuario).child("Products").setValue(listaProductosCart)
-          .addOnCompleteListener(new OnCompleteListener<Void>() {
-              @Override
-              public void onComplete(@NonNull @NotNull Task<Void> task) {
 
-                                  RootRef.child("Orders").child(idOrder).child(numeroUsuario).updateChildren(information)
-                                          .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                              @Override
-                                              public void onComplete(@NonNull @NotNull Task<Void> task) {
-
-                                                  if(task.isSuccessful()){
-
-                                                      lodingBar.dismiss();
-                                                      Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
-                                                      Intent intent = new Intent(CartActivity.this, QrActivity.class);
-                                                      intent.putExtra("idOrder", idOrder);
-                                                      startActivity(intent);
-
-                                                  }
-                                              }
-                                          });
-                              }
-          });
-
-
-
-    }
+        data.put("Product", products);
+//        data.put("information", information);
 
 
 
 
-    public void generateOrderToCostomer(){
-
-        RootRef.child("Orders").child("OrdersCostumers").child(numeroUsuario).child(idOrder).child("Products").setValue(listaProductosCart)
+        RootRef.child("Orders").child(idOrder).child(numeroUsuario).setValue(data)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<Void> task) {
 
-                        RootRef.child("Orders").child("OrdersCostumers").child(numeroUsuario).child(idOrder).updateChildren(information)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull @NotNull Task<Void> task) {
-
-                                        if(task.isSuccessful()){
-
-                                            lodingBar.dismiss();
-                                            Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(CartActivity.this, QrActivity.class);
-                                            intent.putExtra("idOrder", idOrder);
-                                            startActivity(intent);
-
-                                        }
-
-                                    }
-                                });
-
-
+                        if(task.isSuccessful()){
+                            Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
+                          Intent intent = new Intent(CartActivity.this, QrActivity.class);
+                          intent.putExtra("idOrder", idOrder);
+                          startActivity(intent);
+                          lodingBar.dismiss();
+                        }
+                        else {
+                            callback();
+                        }
                     }
                 });
 
 
-//        validateOrder();
+
+
+
+
+//  RootRef.child("Orders").child(idOrder).child(numeroUsuario).child("Products").setValue(listaProductosCart)
+//          .addOnCompleteListener(new OnCompleteListener<Void>() {
+//              @Override
+//              public void onComplete(@NonNull @NotNull Task<Void> task) {
+//
+//                          if(task.isSuccessful()){
+//
+//
+//                              RootRef.child("Orders").child(idOrder).child(numeroUsuario).updateChildren(information)
+//                                      .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                          @Override
+//                                          public void onComplete(@NonNull @NotNull Task<Void> task) {
+//
+//                                              if (task.isSuccessful()) {
+//
+//
+//                                                  Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
+//                                                  Intent intent = new Intent(CartActivity.this, QrActivity.class);
+//                                                  intent.putExtra("idOrder", idOrder);
+//                                                  startActivity(intent);
+//                                                  lodingBar.dismiss();
+//
+//                                              }
+//                                          }
+//                                      });
+//                        }
+//                          else {
+//                              callback();
+//                          }
+//              }
+//          });
+
+
+
     }
-    public void validateOrder(){
-        RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                if(snapshot.child("Orders").child("OrdersCostumers").child(numeroUsuario).child(idOrder).child("oid").exists()){
 
-                    lodingBar.dismiss();
-                    Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CartActivity.this, QrActivity.class);
-                    intent.putExtra("idOrder", idOrder);
-                    startActivity(intent);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        });
+    public void callback(){
+        generateOrderToStore();
     }
+
 }

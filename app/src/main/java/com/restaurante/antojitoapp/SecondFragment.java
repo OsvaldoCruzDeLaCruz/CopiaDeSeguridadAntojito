@@ -110,8 +110,7 @@ public class SecondFragment extends Fragment {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        String childre = ds.child(numeroUsuario).child("oid").getValue().toString();
-
+                            String childre = ds.getChildren().toString();
                             mData.child("Orders").child(childre).child(numeroUsuario).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -138,7 +137,7 @@ public class SecondFragment extends Fragment {
                                 public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
                                 }
-                            });
+                           });
     //                          String phoneDS = ds.child("phone").getValue().toString();
 
                     }
