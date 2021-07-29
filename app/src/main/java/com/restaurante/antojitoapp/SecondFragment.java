@@ -46,7 +46,7 @@ public class SecondFragment extends Fragment {
     ArrayList<OrderElement> listaOrdenes;
     Context context;
     String numeroUsuario ;
-    Button cartBtn;
+
 
     public SecondFragment() {
         // Required empty public constructor
@@ -72,7 +72,7 @@ public class SecondFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        numeroUsuario = Prevalent.currentOnlineUsers.getPhone().toString();
+        numeroUsuario = Prevalent.currentOnlineUsers.getPhone();
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -86,18 +86,12 @@ public class SecondFragment extends Fragment {
 
         View vista = inflater.inflate(R.layout.fragment_second, container, false);
         listaOrdenes = new ArrayList<>();
-
         recyclerView = (RecyclerView) vista.findViewById(R.id.recyclerOrders);
 //        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        cartBtn = vista.findViewById(R.id.btnCart);
-
         context = getContext();
-
-
         llenarLista();
-
 
 
         return vista;
@@ -112,44 +106,48 @@ public class SecondFragment extends Fragment {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
+
+                        if(ds.child(numeroUsuario).child("oid").exists()){
                         String childre = ds.child(numeroUsuario).child("oid").getValue().toString();
 
 
+                        mData.child("Orders").child(childre).child(numeroUsuario).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    System.out.println("*/*/*/*//*" + snapshot);
 
-                            mData.child("Orders").child(childre).child(numeroUsuario).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                    if (snapshot.exists()) {
-                                        System.out.println("*/*/*/*//*" + snapshot);
+                                    String numero = snapshot.child("phone").getValue().toString();
+                                    if (numero.equals(numeroUsuario)) {
 
-                                        String numero = snapshot.child("phone").getValue().toString();
-                                        if(numero.equals(numeroUsuario)) {
-                                            
-                                            String id = snapshot.child("oid").getValue().toString();
-                                            String total = snapshot.child("total").getValue().toString();
+                                        String id = snapshot.child("oid").getValue().toString();
+                                        String total = snapshot.child("total").getValue().toString();
 
-                                            System.out.println("**********" + id);
-                                            System.out.println("**********" + numero);
-                                            System.out.println("**********" + total);
+                                        System.out.println("**********" + id);
+                                        System.out.println("**********" + numero);
+                                        System.out.println("**********" + total);
 
-                                            listaOrdenes.add(new OrderElement(id, total, numero));
-                                        }
+                                        listaOrdenes.add(new OrderElement(id, total, numero));
                                     }
-
-                                    OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, context);
-                                    recyclerView.setAdapter(orderAdapter);
-
                                 }
+//Todo: Cambiar de posicion estas dos lineas
+                                OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, context);
+                                recyclerView.setAdapter(orderAdapter);
 
-                                @Override
-                                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                            }
 
-                                }
-                           });
-    //                          String phoneDS = ds.child("phone").getValue().toString();
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
+                            }
+                        });
+                        //                          String phoneDS = ds.child("phone").getValue().toString();
+
+                        }
                     }
                 }
+
+
 
             }
 
@@ -158,9 +156,6 @@ public class SecondFragment extends Fragment {
 
             }
         });
-
-
-
 
     }
 }
