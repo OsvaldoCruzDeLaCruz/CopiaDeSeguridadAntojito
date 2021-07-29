@@ -16,11 +16,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     private List<OrderElement> mData;
     private LayoutInflater mInflater;
     private Context context;
+    final OrderAdapter.OnItemClickListener listener;
 
-    public OrderAdapter(List<OrderElement> itemList, Context context){
+    public interface OnItemClickListener{
+        void onItemClik(OrderElement item);
+
+    }
+
+
+    public OrderAdapter(List<OrderElement> itemList, Context context, OrderAdapter.OnItemClickListener listener){
         this.mInflater= LayoutInflater.from(context);
         this.context = context;
         this.mData = itemList;
+        this.listener = listener;
     }
     @Override
     public int getItemCount(){
@@ -56,6 +64,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             id.setText(item.getIdOrder());
             total.setText(item.getTotal());
             numero.setText(item.getTelefono());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClik(item);
+                }
+            });
         }
     }
 }

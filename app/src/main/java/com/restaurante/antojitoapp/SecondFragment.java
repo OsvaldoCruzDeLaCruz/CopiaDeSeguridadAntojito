@@ -1,6 +1,7 @@
 package com.restaurante.antojitoapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -131,7 +132,12 @@ public class SecondFragment extends Fragment {
                                     }
                                 }
 //Todo: Cambiar de posicion estas dos lineas
-                                OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, context);
+                                OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, context, new OrderAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClik(OrderElement item) {
+                                        moveToQRActivity(item);
+                                    }
+                                });
                                 recyclerView.setAdapter(orderAdapter);
 
                             }
@@ -157,5 +163,11 @@ public class SecondFragment extends Fragment {
             }
         });
 
+    }
+
+    public void moveToQRActivity (OrderElement item){
+        Intent intent = new Intent(context, QrActivity.class );
+        intent.putExtra("idOrder", item.getIdOrder());
+        startActivity(intent);
     }
 }

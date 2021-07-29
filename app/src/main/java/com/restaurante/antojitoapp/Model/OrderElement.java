@@ -1,6 +1,8 @@
 package com.restaurante.antojitoapp.Model;
 
-public class OrderElement {
+import java.io.Serializable;
+
+public class OrderElement implements Serializable {
     public String idOrder, total, telefono;
 
     public OrderElement(String idOrder, String total, String telefono) {

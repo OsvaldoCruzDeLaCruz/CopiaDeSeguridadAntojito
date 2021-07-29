@@ -60,9 +60,9 @@ public class OrdersAdminActivity extends AppCompatActivity {
                                 System.out.println("``````````` " + oid);
 
                                 listaOrdenes.add(new OrderElement(oid, total, phone));
-
-                                OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, context);
-                                recyclerView.setAdapter(orderAdapter);
+//TODO: habilitar estas lineas, pero para que muestre el detalle del pedido y no el qr como lo hace en la vista del usuario
+//                                OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, context, new Order);
+//                                recyclerView.setAdapter(orderAdapter);
                             }
 
                          }
