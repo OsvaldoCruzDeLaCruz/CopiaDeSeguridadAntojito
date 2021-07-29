@@ -1,5 +1,6 @@
 package com.restaurante.antojitoapp;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ public class SecondFragment extends Fragment {
     private DatabaseReference mData;
     RecyclerView recyclerView;
     ArrayList<OrderElement> listaOrdenes;
+    Context context;
     String numeroUsuario ;
     Button cartBtn;
 
@@ -91,7 +93,7 @@ public class SecondFragment extends Fragment {
 
         cartBtn = vista.findViewById(R.id.btnCart);
 
-
+        context = getContext();
 
 
         llenarLista();
@@ -110,25 +112,31 @@ public class SecondFragment extends Fragment {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                            String childre = ds.getChildren().toString();
+                        String childre = ds.child(numeroUsuario).child("oid").getValue().toString();
+
+
+
                             mData.child("Orders").child(childre).child(numeroUsuario).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                                     if (snapshot.exists()) {
                                         System.out.println("*/*/*/*//*" + snapshot);
-                                        String id = snapshot.child("oid").getValue().toString();
+
                                         String numero = snapshot.child("phone").getValue().toString();
+                                        if(numero.equals(numeroUsuario)) {
+                                            
+                                            String id = snapshot.child("oid").getValue().toString();
+                                            String total = snapshot.child("total").getValue().toString();
 
-                                        String total = snapshot.child("total").getValue().toString();
+                                            System.out.println("**********" + id);
+                                            System.out.println("**********" + numero);
+                                            System.out.println("**********" + total);
 
-                                        System.out.println("**********" + id);
-                                        System.out.println("**********" + numero);
-                                        System.out.println("**********" + total);
-
-                                        listaOrdenes.add(new OrderElement(id, total, numero));
+                                            listaOrdenes.add(new OrderElement(id, total, numero));
+                                        }
                                     }
 
-                                    OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, getContext());
+                                    OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, context);
                                     recyclerView.setAdapter(orderAdapter);
 
                                 }
