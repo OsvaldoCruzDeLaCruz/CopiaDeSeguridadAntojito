@@ -79,7 +79,7 @@ public class HomeAdminActivity extends AppCompatActivity {
                     final DatabaseReference RootRef;
                     RootRef = FirebaseDatabase.getInstance().getReference();
 
-                    RootRef.child("Orders").addValueEventListener(new ValueEventListener() {
+                    RootRef.child("Orders").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
@@ -102,7 +102,6 @@ public class HomeAdminActivity extends AppCompatActivity {
 
                                         }
                                     }
-
                                 }
                                     else {
                                         Toast.makeText(context, "No existe ningun pedido con ese codigo", Toast.LENGTH_SHORT).show();

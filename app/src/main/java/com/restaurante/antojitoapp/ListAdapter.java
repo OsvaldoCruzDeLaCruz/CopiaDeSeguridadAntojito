@@ -75,7 +75,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
                     .into(iconImagen);
             name.setText(item.getName());
             type.setText(item.getType());
-            size.setText(item.getSize());
+            size.setText("$"+(item.getSize()));
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){

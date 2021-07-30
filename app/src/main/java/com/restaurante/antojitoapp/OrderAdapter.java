@@ -23,7 +23,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
     }
 
-
     public OrderAdapter(List<OrderElement> itemList, Context context, OrderAdapter.OnItemClickListener listener){
         this.mInflater= LayoutInflater.from(context);
         this.context = context;
@@ -62,7 +61,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
         void bindData(final OrderElement item){
             id.setText(item.getIdOrder());
-            total.setText(item.getTotal());
+            total.setText("$"+(item.getTotal()));
             numero.setText(item.getTelefono());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

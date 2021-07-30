@@ -25,14 +25,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/titleProduct"
-        android:text="Presenta este codigo QR en el establecimiento, para que te puedan entregar
-                        tu producto"
-        android:textColor="@android:color/black"
-        android:textStyle="normal"
-        android:textSize="20sp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
-        android:layout_marginTop="10dp">
-    </TextView>
+        android:text="Presenta este codigo QR en el establecimiento, para que te puedan entregar tu producto"
+        android:textAlignment="gravity"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="normal"></TextView>
 
     <ImageView
         android:id="@+id/imageQR"

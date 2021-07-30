@@ -106,7 +106,7 @@ public class ScanActivity extends AppCompatActivity {
 
                             }
                         }else{
-                            Toast.makeText(context, "Ya esta pagado!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Ya esta pagado", Toast.LENGTH_SHORT).show();
                         }
 
                     }
