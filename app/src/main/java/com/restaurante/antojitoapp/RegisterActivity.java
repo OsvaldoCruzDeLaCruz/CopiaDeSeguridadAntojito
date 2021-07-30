@@ -60,15 +60,19 @@ public class RegisterActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(name)){
             Toast.makeText(this, "Porfavor, ingresa tu nombre", Toast.LENGTH_SHORT).show();
+        }else if(contieneSoloLetras(name) == false){
+            Toast.makeText(this, "Tu nombre solo puede tener letras", Toast.LENGTH_SHORT).show();
         }
         else if(TextUtils.isEmpty(phone)){
             Toast.makeText(this, "Porfavor, ingresa tu numero celular", Toast.LENGTH_SHORT).show();
+        }else if((phone.length()) < 10 || (phone.length()) > 10){
+            Toast.makeText(this, "Porfavor, ingresa un celular de 10 digitos", Toast.LENGTH_SHORT).show();
         }
         else if(TextUtils.isEmpty(password)){
             Toast.makeText(this, "Porfavor, ingresa tu constraeña", Toast.LENGTH_SHORT).show();
         }
         else{
-            lodingBar.setTitle("Cuenta creada!");
+            lodingBar.setTitle("Un segundo...");
             lodingBar.setMessage("Porfavor espera, estamos comprobando los datos!");
             lodingBar.setCanceledOnTouchOutside(false);
             lodingBar.show();
@@ -76,7 +80,17 @@ public class RegisterActivity extends AppCompatActivity {
             ValidatePhoneNumber(name, phone, password, admin);
         }
 
+    }
 
+    public static boolean contieneSoloLetras(String cadena) {
+        for (int x = 0; x < cadena.length(); x++) {
+            char c = cadena.charAt(x);
+            // Si no está entre a y z, ni entre A y Z, ni es un espacio
+            if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == ' ')) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void ValidatePhoneNumber(String name, String phone, String password, String admin) {

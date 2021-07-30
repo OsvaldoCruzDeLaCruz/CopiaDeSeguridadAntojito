@@ -2,6 +2,8 @@ package com.restaurante.antojitoapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,8 +20,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.restaurante.antojitoapp.Model.ListElement;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class ScanActivity extends AppCompatActivity {
 
@@ -27,22 +32,35 @@ public class ScanActivity extends AppCompatActivity {
     Button btnPay;
     Context context;
     String orderId;
+    String total;
+    DatabaseReference RootRef;
+    RecyclerView recyclerView;
+    ArrayList<ListElement> listaProductos;
+    String element;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
-        String element = (String) getIntent().getSerializableExtra("idOrder");
+
+        listaProductos = new ArrayList<>();
+
+        context = this;
+        recyclerView = findViewById(R.id.ProductRecyclerViewOrderToPay);
+        recyclerView.setHasFixedSize(true); //Problema si se genera el apk
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        element = (String) getIntent().getSerializableExtra("idOrder");
         orderId = element.toString();
 
-        oid = findViewById(R.id.titleIdOrderAdmin);
-        oid.setText(orderId);
+;
 
+        oid = findViewById(R.id.titleIdOrderAdmin);
         titleTotalCash = findViewById(R.id.titleTotalCash);
         btnPay = findViewById(R.id.btnPay);
-        context = this;
 
 
+        RootRef = FirebaseDatabase.getInstance().getReference();
 
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,13 +68,15 @@ public class ScanActivity extends AppCompatActivity {
                 payOrder();
             }
         });
+
+        llenarLista();
     }
 
+
+
+
+
     private void payOrder() {
-
-
-        final DatabaseReference RootRef;
-        RootRef = FirebaseDatabase.getInstance().getReference();
 
         RootRef.child("Orders").child(orderId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -66,14 +86,16 @@ public class ScanActivity extends AppCompatActivity {
                         String phone = ds.child("phone").getValue().toString();
                         String statusOld = ds.child("status").getValue().toString();
                         String total = ds.child("total").getValue().toString();
+                        String status = ds.child("status").getValue().toString();
 
-                            if(ds.exists()){
-                               String status = "1";
+                        if(status.equals("0")){
+                            if (ds.exists()) {
+
 
                                 RootRef.child("Orders").child(orderId).child(phone).child("status").setValue("1").addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull @NotNull Task<Void> task) {
-                                        if(task.isSuccessful()){
+                                        if (task.isSuccessful()) {
                                             Intent intent = new Intent(ScanActivity.this, HomeAdminActivity.class);
                                             startActivity(intent);
                                             Toast.makeText(context, "Pagado con exito", Toast.LENGTH_SHORT).show();
@@ -82,8 +104,11 @@ public class ScanActivity extends AppCompatActivity {
                                 });
 
 
-
                             }
+                        }else{
+                            Toast.makeText(context, "Ya esta pagado!", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 }
             }
@@ -93,6 +118,68 @@ public class ScanActivity extends AppCompatActivity {
 
             }
         });
+
+
+    }
+
+    public void llenarLista(){
+        oid.setText("ID: "+orderId);
+        RootRef.child("Orders").child(orderId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+
+                        String numberCostumer = ds.child("phone").getValue().toString();
+                        total = ds.child("total").getValue().toString();
+
+                        RootRef.child("Orders").child(orderId).child(numberCostumer).child("Product").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    for(DataSnapshot ds : snapshot.getChildren()){
+                                        String id = ds.child("idProducto").getValue().toString();
+                                        String image = ds.child("image").getValue().toString();
+                                        String name = ds.child("nombreProducto").getValue().toString();
+                                        String description = ds.child("descripcion").getValue().toString();
+                                        String price = ds.child("precio").getValue().toString();
+                                        String category = ds.child("categoria").getValue().toString();
+                                        listaProductos.add(new ListElement(id,image, name, description, price, category));
+                                    }
+
+                                }
+                                ListAdapter adapter = new ListAdapter(listaProductos, context, new ListAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(ListElement item) {
+                                        noMoreAction();
+                                    }
+                                });
+                                recyclerView.setAdapter(adapter);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                            }
+                        });
+
+
+                    }
+                    titleTotalCash.setText("Total a pagar: $"+total);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+
+
+    }
+
+    private void noMoreAction() {
 
 
     }

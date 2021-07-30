@@ -7,13 +7,12 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AntojitoApp"
-        android:hardwareAccelerated="true">
-
-        <activity android:name=".ScanActivity"></activity>
+        android:theme="@style/Theme.AntojitoApp">
+        <activity android:name=".ScanActivity" />
         <activity android:name=".OrdersAdminActivity" />
         <activity android:name=".HomeAdminActivity" />
         <activity android:name=".QrActivity" />
@@ -29,13 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:screenOrientation = "portrait"
-            tools:replace="screenOrientation"
-            />
-
-
-        
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
     </application>
 
 </manifest>

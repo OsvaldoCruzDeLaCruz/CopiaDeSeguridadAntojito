@@ -47,6 +47,7 @@
         android:text="Genera tu pedido"
         android:textColor="@color/white"
         android:textSize="18dp"
+        android:visibility="visible"
         />
 </RelativeLayout>
 

@@ -131,7 +131,7 @@ public class SecondFragment extends Fragment {
                                         listaOrdenes.add(new OrderElement(id, total, numero));
                                     }
                                 }
-//Todo: Cambiar de posicion estas dos lineas
+
                                 OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, context, new OrderAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClik(OrderElement item) {

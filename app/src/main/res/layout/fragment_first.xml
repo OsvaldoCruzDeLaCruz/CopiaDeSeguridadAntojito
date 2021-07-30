@@ -18,6 +18,7 @@
         android:textColor="@color/black"
         android:textSize="34sp"
         android:layout_marginTop="90dp"
+
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -34,10 +35,7 @@
         android:layout_below="@+id/recyclerId"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-86dp"
-
         android:layout_marginEnd="24dp"
-
-
         android:layout_marginRight="20dp"
         android:src="@drawable/nav_cart"
         android:visibility="visible" />

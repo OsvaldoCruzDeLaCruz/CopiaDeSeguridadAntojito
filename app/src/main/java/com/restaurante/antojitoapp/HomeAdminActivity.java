@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class HomeAdminActivity extends AppCompatActivity {
 
-    Button startScannig, starListOrders;
+    Button startScannig, starListOrders, exit;
     Context context;
 
     @Override
@@ -32,13 +32,20 @@ public class HomeAdminActivity extends AppCompatActivity {
         context = this;
         startScannig =  findViewById(R.id.btnGoScan);
         starListOrders = findViewById(R.id.btnGoOrders);
+        exit = findViewById(R.id.exitbtnAdmin);
+
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeAdminActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         startScannig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 scan();
-//                Intent intent = new Intent(HomeAdminActivity.this, ScanActivity.class );
-//                startActivity(intent);
             }
         });
 
@@ -60,6 +67,7 @@ public class HomeAdminActivity extends AppCompatActivity {
         integrator.setBarcodeImageEnabled(true);
         integrator.initiateScan();
     }
+
     protected  void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);

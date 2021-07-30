@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.firebase.database.DataSnapshot;
@@ -60,9 +61,14 @@ public class OrdersAdminActivity extends AppCompatActivity {
                                 System.out.println("``````````` " + oid);
 
                                 listaOrdenes.add(new OrderElement(oid, total, phone));
-//TODO: habilitar estas lineas, pero para que muestre el detalle del pedido y no el qr como lo hace en la vista del usuario
-//                                OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, context, new Order);
-//                                recyclerView.setAdapter(orderAdapter);
+
+                                OrderAdapter orderAdapter = new OrderAdapter(listaOrdenes, context, new OrderAdapter.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClik(OrderElement item) {
+                                        moveToDescription(item);
+                                    }
+                                });
+                                recyclerView.setAdapter(orderAdapter);
                             }
 
                          }
@@ -79,5 +85,13 @@ public class OrdersAdminActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void moveToDescription(OrderElement item) {
+        Intent intent = new Intent(context, ScanActivity.class);
+        intent.putExtra("idOrder", item.getIdOrder());
+        startActivity(intent);
+
+
     }
 }

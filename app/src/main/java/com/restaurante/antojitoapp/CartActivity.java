@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -46,10 +48,12 @@ public class CartActivity extends AppCompatActivity {
     String totalString;
     String pid;
     String cantidadString;
+    int totalAPagar;
+    String totalAPagarString;
     final DatabaseReference RootRef =  FirebaseDatabase.getInstance().getReference();
     String numeroUsuario;
-    HashMap<String, Object> products = new HashMap<>();
-    HashMap<String, Object> information = new HashMap<>();
+
+
     HashMap<String, Object> data = new HashMap<>();
 
 
@@ -57,6 +61,7 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        totalAPagar = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         numeroUsuario = Prevalent.currentOnlineUsers.getPhone().toString();
@@ -101,51 +106,71 @@ public class CartActivity extends AppCompatActivity {
                         String nombre = ds.child("pname").getValue().toString();
                         String descripcion = ds.child("description").getValue().toString();
                         String categoria = ds.child("category").getValue().toString();
-
-                        precio = Integer.parseInt(ds.child("price").getValue().toString());
+                        String precioUnitario = ds.child("price").getValue().toString();
+                        precio = Integer.parseInt(precioUnitario);
                         cantidad = Integer.parseInt(ds.child("amountProduct").getValue().toString());
 
                         total = (precio * cantidad);
                         totalString = String.valueOf(total);
                         cantidadString = String.valueOf(cantidad);
 
-//                        listaProductosCart.add(new CartElement(id, image, ("Producto: "+nombre), tipo, ("Cantidad: " + cantidadString), ("Total a pagar: "+totalString), categoria));
-                        listaProductosCart.add(new CartElement(pid, image, nombre, descripcion, cantidadString, totalString, categoria));
-                        products.put("pid",pid);
-                        products.put("image", image);
-                        products.put("pname", nombre);
-                        products.put("description", descripcion);
-                        products.put("category", categoria);
+                        listaProductosCart.add(new CartElement(pid, image, nombre, descripcion, cantidadString, precioUnitario ,totalString, categoria));
 
-                        System.out.println(nombre );
-                        System.out.println(precio );
-                        System.out.println(cantidad );
-                        System.out.println(listaProductosCart);
 
-                        information.put("total", totalString);
-                        information.put("status", "0");
-                        information.put("phone", numeroUsuario);
-
-                        data.put("total", totalString);
-                        data.put("status", "0");
-                        data.put("phone", numeroUsuario);
-
+                        totalAPagar = totalAPagar + total;
 
                     }
+                    totalAPagarString = String.valueOf(totalAPagar);
+
+                    data.put("status", "0");
+                    data.put("phone", numeroUsuario);
+                    data.put("total", totalAPagarString);
+                }else{
+                    btnGenerate.setVisibility(View.INVISIBLE);
                 }
 
                 CartAdapter cartAdapter = new CartAdapter(listaProductosCart, context, new CartAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(CartElement item) {
-                        String id = item.getIdProducto();
-                        String imagen = item.getImage();
-                        String name = item.getNombreProducto();
-                        String type = item.getDescripcion();
-                        String size = item.getPrecio();
-                        String category = item.getCategoria();
 
-                        ListElement listElement = new ListElement(id, imagen, name, type, size, category);
-                        moveToDescription(listElement);
+                        CharSequence option[] = new CharSequence[]{
+                            "Cambiar cantidad",
+                            "Eliminar"
+                        };
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Opciones");
+                        builder.setItems(option, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String pid = item.getIdProducto();
+                                String imagen = item.getImage();
+                                String name = item.getNombreProducto();
+                                String type = item.getDescripcion();
+                                String size = item.getPrecio();
+                                String category = item.getCategoria();
+
+                                if(i == 0){
+                                    ListElement listElement = new ListElement(pid, imagen, name, type, size, category);
+                                    moveToDescription(listElement);
+                                }else if(i == 1){
+                                    RootRef.child("CartList").child("PedidosUsuarios").child(numeroUsuario).child("Products").child(pid).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull @NotNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(context,"Borrado de tu carrito", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(CartActivity.this, HomeActivity.class);
+                                                startActivity(intent);
+                                            }
+
+                                        }
+                                    });
+                                }
+
+
+                            }
+                        });
+                      builder.show();
+
                     }
                 });
                 recyclerView.setAdapter(cartAdapter);
@@ -187,7 +212,6 @@ public class CartActivity extends AppCompatActivity {
 
         idOrder = numeroUsuario+anioF+diaF+horaF+minutoF+segundoF+milesegundoF;
 
-        information.put("oid", idOrder);
         data.put("oid", idOrder);
         data.put("Product", listaProductosCart);
 
@@ -198,11 +222,7 @@ public class CartActivity extends AppCompatActivity {
                     public void onComplete(@NonNull @NotNull Task<Void> task) {
 
                         if(task.isSuccessful()){
-                            Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
-                          Intent intent = new Intent(CartActivity.this, QrActivity.class);
-                          intent.putExtra("idOrder", idOrder);
-                          startActivity(intent);
-                          lodingBar.dismiss();
+                            deleteCart();
                         }
                         else {
                             callback();
@@ -211,6 +231,21 @@ public class CartActivity extends AppCompatActivity {
                 });
 
 
+    }
+
+    private void deleteCart() {
+        RootRef.child("CartList").child("PedidosUsuarios").child(numeroUsuario).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                    Toast.makeText(CartActivity.this, "Orden creada con exito", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CartActivity.this, QrActivity.class);
+                    intent.putExtra("idOrder", idOrder);
+                    startActivity(intent);
+                    lodingBar.dismiss();
+                }
+            }
+        });
     }
 
     public void callback(){

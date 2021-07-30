@@ -64,7 +64,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         void bindData(final CartElement item){
             productoNombre.setText(item.getNombreProducto());
             productoCantidad.setText(item.getCantidadProducto());
-            precioTotal.setText(item.getPrecio());
+            precioTotal.setText(item.getTotal());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

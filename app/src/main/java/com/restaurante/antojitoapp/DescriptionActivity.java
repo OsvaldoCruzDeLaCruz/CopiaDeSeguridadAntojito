@@ -84,15 +84,18 @@ public class DescriptionActivity extends AppCompatActivity {
     }
 
     private void addToCartList() {
+
         cantidadProducto = cantidad.getText().toString();
+
+        if(!(cantidadProducto.equals("0"))){
 
         String saveCurrentTime, saveCurrentDate;
         Calendar calForDate = Calendar.getInstance();
 
-        SimpleDateFormat  currentDate = new  SimpleDateFormat("MM dd, yyyy");
+        SimpleDateFormat currentDate = new SimpleDateFormat("MM dd, yyyy");
         saveCurrentDate = currentDate.format(calForDate.getTime());
 
-        SimpleDateFormat  currentTime = new  SimpleDateFormat("HH:mm:ss a");
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
         saveCurrentTime = currentTime.format(calForDate.getTime());
 
         DatabaseReference cartListRef = FirebaseDatabase.getInstance().getReference().child("CartList");
@@ -114,32 +117,22 @@ public class DescriptionActivity extends AppCompatActivity {
                 .child("Products").child(idProducto)
                 .updateChildren(cartMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    cartListRef.child("PedidosTienda").child(Prevalent.currentOnlineUsers.getPhone())
-                            .child("Products").child(idProducto)
-                            .updateChildren(cartMap)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull @NotNull Task<Void> task) {
-
-                                    if (task.isSuccessful()){
-                                        Toast.makeText(DescriptionActivity.this, "Agregado a tu carrito", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(DescriptionActivity.this, "Agregado a tu carrito", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(DescriptionActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                        }
 
 
+                    }
+                });
 
-                                    }
-                                }
-                            });
-                }
-
-                
-            }
-        });
-
-        Intent intent = new Intent(DescriptionActivity.this, HomeActivity.class);
-        startActivity(intent);
+    }
+        else if(cantidadProducto.equals("0")){
+            Toast.makeText(DescriptionActivity.this, "No puede ser 0", Toast.LENGTH_SHORT).show();
+        }
         
     }
 }

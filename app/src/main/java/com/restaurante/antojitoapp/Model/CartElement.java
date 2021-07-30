@@ -3,16 +3,18 @@ package com.restaurante.antojitoapp.Model;
 import java.io.Serializable;
 
 public class CartElement  implements Serializable {
-    public String idProducto,image, nombreProducto, descripcion, cantidadProducto, precio, categoria;
+    public String idProducto,image, nombreProducto, descripcion, cantidadProducto, precio, total, categoria;
 
-    public CartElement(String id, String image, String nombreProducto,String descripcion, String cantidadProducto, String precio, String categoria) {
+    public CartElement(String id, String image, String nombreProducto,String descripcion, String cantidadProducto, String precio, String total, String categoria) {
         this.idProducto = id;
         this.image = image;
         this.nombreProducto = nombreProducto;
         this.descripcion = descripcion;
         this.cantidadProducto = cantidadProducto;
         this.precio = precio;
+        this.total = total;
         this.categoria = categoria;
+
 
     }
 
@@ -70,5 +72,13 @@ public class CartElement  implements Serializable {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
     }
 }
