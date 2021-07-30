@@ -1,11 +1,13 @@
 package com.restaurante.antojitoapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -143,15 +145,34 @@ public class ScanActivity extends AppCompatActivity {
                                         String name = ds.child("nombreProducto").getValue().toString();
                                         String description = ds.child("descripcion").getValue().toString();
                                         String price = ds.child("precio").getValue().toString();
+                                        String cantidad = ds.child("cantidadProducto").getValue().toString();
                                         String category = ds.child("categoria").getValue().toString();
-                                        listaProductos.add(new ListElement(id,image, name, description, price, category));
+                                        listaProductos.add(new ListElement(id,image, name, description, price, category, cantidad));
                                     }
 
                                 }
                                 ListAdapter adapter = new ListAdapter(listaProductos, context, new ListAdapter.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(ListElement item) {
-                                        noMoreAction();
+
+                                        CharSequence datails [] = new CharSequence[]{
+                                                ("Cantidad de producto: " + item.getAmount()),
+                                                ("Precio unitario:" + item.getSize())
+                                        };
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                        builder.setTitle("Detalles");
+                                        builder.setItems(datails, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                if(i ==0){
+
+                                                }else if(i ==0){
+
+                                                }
+                                            }
+                                        });
+                                        builder.show();
+
                                     }
                                 });
                                 recyclerView.setAdapter(adapter);

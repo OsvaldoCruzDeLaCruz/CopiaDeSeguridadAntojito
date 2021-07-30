@@ -10,14 +10,16 @@ public class ListElement implements Serializable {
     public String type;
     public String size;
     public String category;
+    public String amount;
 
-    public ListElement(String id, String imagen, String name, String type, String size, String category) {
+    public ListElement(String id, String imagen, String name, String type, String size, String category, String amount) {
         this.id = id;
         this.imagen = imagen;
         this.name = name;
         this.type = type;
         this.size = size;
         this.category = category;
+        this.amount = amount;
     }
 
     public String getId() {
@@ -66,5 +68,13 @@ public class ListElement implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 }

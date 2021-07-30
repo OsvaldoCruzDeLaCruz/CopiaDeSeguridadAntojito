@@ -148,9 +148,10 @@ public class CartActivity extends AppCompatActivity {
                                 String type = item.getDescripcion();
                                 String size = item.getPrecio();
                                 String category = item.getCategoria();
+                                String amount= item.getCantidadProducto();
 
                                 if(i == 0){
-                                    ListElement listElement = new ListElement(pid, imagen, name, type, size, category);
+                                    ListElement listElement = new ListElement(pid, imagen, name, type, size, category, amount);
                                     moveToDescription(listElement);
                                 }else if(i == 1){
                                     RootRef.child("CartList").child("PedidosUsuarios").child(numeroUsuario).child("Products").child(pid).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
